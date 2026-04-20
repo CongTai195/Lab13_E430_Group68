@@ -2,7 +2,7 @@
 
 ## 1. High latency P95
 - Severity: P2
-- Trigger: `latency_p95_ms > 5000 for 30m`
+- Trigger: `latency_p95 > 1000ms`
 - Impact: tail latency breaches SLO
 - First checks:
   1. Open top slow traces in the last 1h
@@ -15,7 +15,7 @@
 
 ## 2. High error rate
 - Severity: P1
-- Trigger: `error_rate_pct > 5 for 5m`
+- Trigger: `error_rate_pct > 1%`
 - Impact: users receive failed responses
 - First checks:
   1. Group logs by `error_type`
@@ -26,9 +26,9 @@
   - disable failing tool
   - retry with fallback model
 
-## 3. Cost budget spike
+## 3. Budget threshold exceeded
 - Severity: P2
-- Trigger: `hourly_cost_usd > 2x_baseline for 15m`
+- Trigger: `total_cost_usd > $2.0`
 - Impact: burn rate exceeds budget
 - First checks:
   1. Split traces by feature and model
@@ -38,3 +38,16 @@
   - shorten prompts
   - route easy requests to cheaper model
   - apply prompt cache
+
+## 4. Quality degradation
+- Severity: P3
+- Trigger: `quality_avg < 0.85`
+- Impact: agent responses are becoming less accurate
+- First checks:
+  1. Review recent feedback in Langfuse
+  2. Check if a new prompt version was deployed
+  3. Verify if retrieval (RAG) is returning irrelevant docs
+- Mitigation:
+  - adjust temperature
+  - roll back prompt version
+  - improve search weights

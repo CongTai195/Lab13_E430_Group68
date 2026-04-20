@@ -2,15 +2,18 @@ service: day13-observability-lab
 window: 28d
 slis:
   latency_p95_ms:
-    objective: 3000
+    objective: 1000
     target: 99.5
-    note: Replace with your group's target
+    note: Aggregate P95 latency should stay under 1s for best UX.
   error_rate_pct:
-    objective: 2
-    target: 99.0
+    objective: 1
+    target: 99.9
+    note: Near-zero error rate target for critical agent routes.
   daily_cost_usd:
-    objective: 2.5
+    objective: 2.0
     target: 100.0
+    note: Budget cap for the dev environment team.
   quality_score_avg:
-    objective: 0.75
-    target: 95.0
+    objective: 0.85
+    target: 90.0
+    note: Maintain high heuristic quality score above 0.85.
